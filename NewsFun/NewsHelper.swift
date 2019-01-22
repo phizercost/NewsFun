@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import DocumentClassifier
 
 class NewsHelper {
     
@@ -29,6 +30,12 @@ class NewsHelper {
                         article.url = url
                         article.urlToImage = urlToImage
                         article.description = description
+                        guard let classification = DocumentClassifier().classify(description)
+                        else {
+                            return
+                        }
+                        
+                        article.category = classification.prediction.category.rawValue
                         articles.append(article)
                     }
                 }
